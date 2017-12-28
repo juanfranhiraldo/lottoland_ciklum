@@ -61,16 +61,21 @@ public class Test {
 		while(addedUsers.contains(userToAdd)){
 			userToAdd=users.get(r.nextInt(users.size()));
 		}
+		//User data
 		driver.findElement(By.id("name_3_firstname")).sendKeys(userToAdd.firstName);
 		driver.findElement(By.id("name_3_lastname")).sendKeys(userToAdd.lastName);
+		//Random marital status
 		driver.findElement(By.cssSelector("input[value='"+RandomizeData.randomizeMarital()+"']")).click();
+		//Random hobbies
 		String randomHobbies[]=RandomizeData.randomizeHobbies();
 		for(int i=0;i<randomHobbies.length;i++){
 			driver.findElement(By.cssSelector("input[value='"+randomHobbies[i]+"']")).click();
 		}
+		//Random country
 		driver.findElement(By.id("dropdown_7")).click();
 		driver.findElement(By.id("dropdown_7")).sendKeys(RandomizeData.randomizeCountry());
 		driver.findElement(By.id("dropdown_7")).sendKeys(Keys.RETURN);
+		//Random date(even if wrong)
 		Date date=RandomizeData.randomizeDate();
 		driver.findElement(By.id("mm_date_8")).findElement(By.cssSelector("option[value='"+date.getMonth()+"'")).click();
 		driver.findElement(By.id("dd_date_8")).findElement(By.cssSelector("option[value='"+date.getDay()+"'")).click();
