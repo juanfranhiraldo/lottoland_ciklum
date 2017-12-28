@@ -8,7 +8,7 @@ public int getDay() {
 }
 
 public void setDay(int day) {
-	this.day = day;
+	this.day = day; 
 }
 
 public int getMonth() {

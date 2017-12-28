@@ -51,8 +51,12 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public boolean equals(User u){
-		return u.firstName.equals(firstName) && u.lastName.equals(lastName);
+	public boolean equals(Object u){
+		if(u instanceof User){
+			User user=(User)u;
+			return user.firstName.equals(firstName) && user.lastName.equals(lastName);
+		}else
+			return false; 
 	}
 	
 }

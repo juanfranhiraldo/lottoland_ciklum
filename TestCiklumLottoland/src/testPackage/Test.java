@@ -39,7 +39,6 @@ public class Test {
 		driver.get(" http://demoqa.com/registration/");
 		Assert.assertTrue(driver.getCurrentUrl().equals("http://demoqa.com/registration/"));
 		String[] resToPrint=names;
-		List<User> addedUsers=new ArrayList<User>();
 		for(int i=0;i<5;i++){
 			User user=registerRandomUser();
 			addedUsers.add(user);
@@ -71,7 +70,7 @@ public class Test {
 		for(int i=0;i<randomHobbies.length;i++){
 			driver.findElement(By.cssSelector("input[value='"+randomHobbies[i]+"']")).click();
 		}
-		//Random country
+		//Random country(First three letters which are common) and select
 		driver.findElement(By.id("dropdown_7")).click();
 		driver.findElement(By.id("dropdown_7")).sendKeys(RandomizeData.randomizeCountry());
 		driver.findElement(By.id("dropdown_7")).sendKeys(Keys.RETURN);
@@ -80,6 +79,11 @@ public class Test {
 		driver.findElement(By.id("mm_date_8")).findElement(By.cssSelector("option[value='"+date.getMonth()+"'")).click();
 		driver.findElement(By.id("dd_date_8")).findElement(By.cssSelector("option[value='"+date.getDay()+"'")).click();
 		driver.findElement(By.id("yy_date_8")).findElement(By.cssSelector("option[value='"+date.getYear()+"'")).click();
+		//Random phone number between 10-20 digits
+		driver.findElement(By.id("phone_9")).sendKeys(RandomizeData.randomizePhoneNumber());
+		//Random username between 5-15 characters
+		driver.findElement(By.id("username")).sendKeys(RandomizeData.randomizeUserName());
+		
 		return userToAdd;
 	}
 
