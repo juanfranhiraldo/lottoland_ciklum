@@ -3,6 +3,7 @@ package testPackage;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -14,6 +15,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Test {
 	static WebDriver driver;
@@ -35,22 +38,41 @@ public class Test {
 	}
 
 	@org.junit.Test
-	public void test() {
+	public void test() throws InterruptedException{
 		driver.get(" http://demoqa.com/registration/");
 		Assert.assertTrue(driver.getCurrentUrl().equals("http://demoqa.com/registration/"));
-		String[] resToPrint=names;
+		ArrayList<String> resToPrint=new ArrayList<String>(Arrays.asList(names));
 		for(int i=0;i<5;i++){
 			User user=registerRandomUser();
 			addedUsers.add(user);
-			deleteFrom(resToPrint,user.getCompleteName());
+			resToPrint.remove(user.getCompleteName());
+			driver.findElement(By.cssSelector("input[name='pie_submit']")).click();
+			//Thread.sleep(30000);
+			WebDriverWait wait = new WebDriverWait(driver, 20000);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Thank you for your registration')]")));
+			driver.findElement(By.id("name_3_firstname")).clear();
+			driver.findElement(By.id("name_3_lastname")).clear();
+			driver.findElement(By.id("phone_9")).clear();
+			driver.findElement(By.id("username")).clear();
+			driver.findElement(By.id("email_1")).clear();
+			driver.findElement(By.id("description")).clear();
+			driver.findElement(By.id("password_2")).clear();
+			driver.findElement(By.id("confirm_password_password_2")).clear();
+			resetHobbies();
 		}
-		for(int i=0;i<resToPrint.length;i++){
-			System.out.println(resToPrint[i]);
+		for(String s:resToPrint){
+			System.out.println(s);
 		}
 	}
 
-	private void deleteFrom(String[] resToPrint, String completeName) {
-		// TODO Auto-generated method stub
+
+	private void resetHobbies() {
+		String[] hobbies={"dance","reading","cricket "};
+		for(int i=0;i<hobbies.length;i++){
+			if(driver.findElement(By.cssSelector("input[value='"+hobbies[i]+"']")).isSelected()){
+				driver.findElement(By.cssSelector("input[value='"+hobbies[i]+"']")).click();
+			}
+		}
 		
 	}
 
@@ -82,8 +104,14 @@ public class Test {
 		//Random phone number between 10-20 digits
 		driver.findElement(By.id("phone_9")).sendKeys(RandomizeData.randomizePhoneNumber());
 		//Random username between 5-15 characters
-		driver.findElement(By.id("username")).sendKeys(RandomizeData.randomizeUserName());
-		
+		String username=RandomizeData.randomizeUserName();
+		driver.findElement(By.id("username")).sendKeys(username);
+		userToAdd.setUsername(username);
+		driver.findElement(By.id("email_1")).sendKeys(RandomizeData.randomizeEmail());
+		driver.findElement(By.id("description")).sendKeys(RandomizeData.randomAbout());
+		String password=RandomizeData.randomPassword();
+		driver.findElement(By.id("password_2")).sendKeys(password);
+		driver.findElement(By.id("confirm_password_password_2")).sendKeys(password);
 		return userToAdd;
 	}
 

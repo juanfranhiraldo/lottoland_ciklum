@@ -1,6 +1,9 @@
 package testPackage;
 
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
+import java.util.TreeMap;
 
 public class RandomizeData {
 	static Random r=new Random(System.currentTimeMillis());
@@ -41,7 +44,7 @@ public class RandomizeData {
 	public static String randomizePhoneNumber(){
 		String res="";
 		String numbers="0123456789";
-		int phoneLength=r.nextInt(11)+10;
+		int phoneLength=r.nextInt(5)+11;
 		for(int i=0;i<phoneLength;i++){
 			char digit=numbers.charAt(r.nextInt(numbers.length()));
 			res=res+digit;
@@ -64,9 +67,52 @@ public class RandomizeData {
 	
 	public static String randomizeEmail(){
 		String res="";
-		String firstPart;
-		String secondPart;
-		
+		String firstPart="";
+		String secondPart="";
+		String termination=".";
+		int lengthFirstPart=r.nextInt(10)+4;
+		String letters="abcdefghijklmnopqrstuvwxyz";
+		letters=letters+letters.toUpperCase();
+		String numbers="0123456789";
+		String lettersAndNumbers=letters+numbers;
+		firstPart=firstPart+letters.charAt(r.nextInt(letters.length()));
+		for(int i=0;i<lengthFirstPart;i++){
+			firstPart=firstPart+lettersAndNumbers.charAt(r.nextInt(lettersAndNumbers.length()));	
+		}
+		int lengthLastPart=r.nextInt(10)+4;
+		for(int i=0;i<lengthLastPart;i++){
+			secondPart=secondPart+letters.charAt(r.nextInt(letters.length()));	
+		}
+		for(int i=0;i<3;i++){
+			termination=termination+letters.charAt(r.nextInt(letters.length()));	
+		}
+		res=firstPart+"@"+secondPart+termination;
+		return res;
+	}
+	
+	public static String randomAbout(){
+		String letters="abcdefghijklmnopqrstuvwxyz .:@,//\\";
+		letters=letters+letters.toUpperCase();
+		String numbers="0123456789";
+		String lettersAndNumbers=letters+numbers;
+		String res="";
+		int length=r.nextInt(300);
+		for(int i=0;i<length;i++){
+			res=res+lettersAndNumbers.charAt(r.nextInt(lettersAndNumbers.length()));
+		}
+		return res;
+	}
+	
+	public static String randomPassword(){
+		String letters="abcdefghijklmnopqrstuvwxyz";
+		letters=letters+letters.toUpperCase();
+		String numbers="0123456789";
+		String lettersAndNumbers=letters+numbers;
+		String res="";
+		int length=r.nextInt(20)+8;
+		for(int i=0;i<length;i++){
+			res=res+lettersAndNumbers.charAt(r.nextInt(lettersAndNumbers.length()));
+		}
 		return res;
 	}
 	
@@ -91,4 +137,7 @@ public class RandomizeData {
 		}
 		return found;
 	}
+	
+	
 }
+
